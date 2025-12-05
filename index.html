@@ -1,0 +1,79 @@
+
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>カード＆アルバム管理（自分用）</title>
+  style.css
+</head>
+<body>
+<header>
+  <h1>カード＆アルバム管理（自分用）</h1>
+</header>
+
+<main>
+  <!-- カード登録 -->
+  <section class="panel">
+    <h2>カード登録</h2>
+    <form id="cardForm">
+      <label>カード名 <input type="text" id="cardName" required /></label>
+      <label>ジャンル（カンマ区切り） <input type="text" id="cardGenres" placeholder="例: 旅, 食, 趣味" /></label>
+      <label>画像 <input type="file" id="cardImage" accept="image/*" required /></label>
+      <div class="hint">※画像は自動で最大幅1024pxに縮小・保存されます</div>
+      <button type="submit">登録</button>
+    </form>
+    <div id="cardStatus" class="status"></div>
+  </section>
+
+  <!-- カード一覧 -->
+  <section class="panel">
+    <h2>カード一覧</h2>
+    <div id="cardList" class="grid"></div>
+  </section>
+
+  <!-- アルバム作成 -->
+  <section class="panel">
+    <h2>アルバム登録（最大20枚）</h2>
+    <form id="albumForm">
+      <label>アルバム名 <input type="text" id="albumTitle" required /></label>
+      <label>ジャンル（カンマ区切り） <input type="text" id="albumGenres" placeholder="例: 旅アルバム, 2025夏" /></label>
+      <div class="hint">カードを選択してください（クリックで選択/解除）</div>
+      <div id="albumCardPicker" class="grid"></div>
+      <div id="albumCount" class="status"></div>
+      <button type="submit">アルバム作成</button>
+    </form>
+    <div id="albumStatus" class="status"></div>
+  </section>
+
+  <!-- 検索 -->
+  <section class="panel">
+    <h2>アルバム検索（ジャンル）</h2>
+    <form id="searchForm">
+      <label>ジャンルキーワード <input type="text" id="searchKeyword" placeholder="例: 旅" /></label>
+      <button type="submit">検索</button>
+      <button type="button" id="searchClear">クリア</button>
+    </form>
+    <div id="albumList" class="grid"></div>
+  </section>
+
+  <!-- バックアップ -->
+  <section class="panel">
+    <h2>バックアップ／復元</h2>
+    <div class="backup">
+      <button id="exportBtn">JSONエクスポート</button>
+      <input type="file" id="importFile" accept="application/json" />
+      <button id="importBtn">インポート</button>
+      <div class="hint">※画像を含むためファイルサイズが大きくなる場合があります</div>
+      <div id="backupStatus" class="status"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <small>© 自分用 Card/Album Manager</small>
+</footer>
+
+app.js</script>
+</body>
+</html>

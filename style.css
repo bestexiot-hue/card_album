@@ -1,0 +1,73 @@
+
+:root {
+  --bg: #0f1218;
+  --panel: #171b23;
+  --text: #e7eaee;
+  --muted: #9aa4b2;
+  --accent: #4aa3ff;
+  --danger: #ff6b6b;
+  --border: #2a2f3a;
+}
+
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family:system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; }
+header, footer { padding: 16px 20px; border-bottom:1px solid var(--border); }
+footer { border-top:1px solid var(--border); border-bottom:none; }
+h1, h2 { margin: 0 0 8px 0; }
+
+main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+.panel { background: var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:16px; }
+
+label { display:block; margin:8px 0; }
+input[type="text"], input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#0b0e14;
+  color:var(--text);
+}
+button {
+  background: var(--accent);
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  padding:10px 14px;
+  cursor:pointer;
+  margin-top:8px;
+}
+button:hover { filter: brightness(1.1); }
+button[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+.card, .album {
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+  background:#10151c;
+}
+.card img, .album img { width: 100%; height: 140px; object-fit: cover; display:block; background:#0b0e14; }
+.card .meta, .album .meta { padding:8px; }
+.tags { color: var(--muted); font-size: 12px; }
+
+.status { margin-top:6px; color: var(--muted); }
+.hint { color: var(--muted); font-size: 12px; }
+
+.selectable { position: relative; cursor: pointer; }
+.selectable.selected::after {
+  content: "✓";
+  position: absolute; top:8px; right:8px;
+  background: var(--accent); color:#fff; border-radius:50%;
+  width:24px; height:24px; display:flex; align-items:center; justify-content:center;
+  font-weight:bold;
+  box-shadow: 0 0 0 2px #0b0e14;
+}
+.album .count {
+  position: absolute; top:8px; left:8px;
+  background: rgba(0,0,0,.6); color:#fff; padding:4px 8px; border-radius:999px; font-size:12px;
+}
+.albumCover { position: relative; }
