@@ -12,12 +12,15 @@
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; background:var(--bg); color:var(--text);
   font-family:system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; }
-header, footer { padding: 16px 20px; border-bottom:1px solid var(--border); }
-footer { border-top:1px solid var(--border); border-bottom:none; }
+
+.app-header { padding: 16px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+.top-nav { display:flex; gap:8px; flex-wrap:wrap; }
 h1, h2, h3 { margin: 0 0 8px 0; }
+footer { padding: 16px 20px; border-top:1px solid var(--border); }
 
 main { max-width: 1100px; margin: 0 auto; padding: 16px; }
 .panel { background: var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:16px; }
+.view.hidden { display:none; }
 
 label { display:block; margin:8px 0; }
 input[type="text"], input[type="file"] {
@@ -39,45 +42,34 @@ button {
 }
 button:hover { filter: brightness(1.1); }
 button[disabled] { opacity: 0.5; cursor: not-allowed; }
-button.ghost {
-  background: transparent; border:1px solid var(--border); color:var(--text);
-}
+button.ghost { background: transparent; border:1px solid var(--border); color:var(--text); }
 button.danger { background: var(--danger); }
 
 .row-right { display:flex; gap:8px; justify-content:flex-end; }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px;
-}
-.card, .album {
-  border:1px solid var(--border);
-  border-radius:10px;
-  overflow:hidden;
-  background:#10151c;
-}
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.card, .album { border:1px solid var(--border); border-radius:10px; overflow:hidden; background:#10151c; }
 .card img, .album img { width: 100%; height: 140px; object-fit: cover; display:block; background:#0b0e14; }
 .card .meta, .album .meta { padding:8px; }
 .tags { color: var(--muted); font-size: 12px; }
 
 .status { margin-top:6px; color: var(--muted); }
 .hint { color: var(--muted); font-size: 12px; }
-
+.subhead { margin-top:12px; margin-bottom:6px; color: var(--muted); font-weight:600; }
 .actions { display:flex; gap:8px; padding:8px; justify-content:flex-end; }
 
+/* 選択可能カード */
 .selectable { position: relative; cursor: pointer; }
 .selectable.selected::after {
   content: "✓";
   position: absolute; top:8px; right:8px;
   background: var(--accent); color:#fff; border-radius:50%;
   width:24px; height:24px; display:flex; align-items:center; justify-content:center;
-  font-weight:bold;
-  box-shadow: 0 0 0 2px #0b0e14;
+  font-weight:bold; box-shadow: 0 0 0 2px #0b0e14;
 }
 .album .count {
-  position: absolute; top:8px; left:8px;
-  background: rgba(0,0,0,.6); color:#fff; padding:4px 8px; border-radius:999px; font-size:12px;
+  position: absolute; top:8px; left:8px; background: rgba(0,0,0,.6); color:#fff;
+  padding:4px 8px; border-radius:999px; font-size:12px;
 }
 .albumCover { position: relative; }
 
@@ -86,6 +78,30 @@ button.danger { background: var(--danger); }
   width: 100%; max-height: 240px; object-fit: contain; border:1px solid var(--border);
   border-radius:10px; background:#0b0e14; margin-bottom:8px;
 }
+
+/* メニュータイル */
+.menu-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px; }
+.menu-tile {
+  display:flex; flex-direction:column; align-items:flex-start; gap:4px;
+  border:1px solid var(--border); background:#10151c; border-radius:10px; padding:16px; cursor:pointer;
+}
+.menu-icon { font-size:28px; }
+.menu-title { font-size:18px; font-weight:600; }
+.menu-desc { font-size:12px; color:var(--muted); }
+
+/* 属性チップ */
+.chips-bar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; }
+.chip { display:flex; align-items:center; gap:6px; padding:6px 8px; border:1px solid var(--border); border-radius:999px; cursor:pointer; background:#10151c; color:var(--text); font-size:13px; }
+.chip img { width:20px; height:20px; object-fit:cover; border-radius:50%; }
+.chip.selected { background:#14365f; border-color:#225e99; }
+
+/* 属性カード（設定画面） */
+.grid.attrs { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+.attr-card { border:1px solid var(--border); border-radius:8px; overflow:hidden; background:#10151c; }
+.attr-card img { width:100%; height:120px; object-fit:cover; background:#0b0e14; }
+.attr-card .meta { padding:8px; }
+.attr-actions { display:flex; gap:8px; justify-content:flex-end; padding:8px; }
 
 /* モーダル */
 .modal { position: fixed; inset:0; background: rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:1000; }
@@ -99,19 +115,8 @@ button.danger { background: var(--danger); }
   h1 { font-size: 20px; }
   h2 { font-size: 18px; }
   .panel { padding: 12px; }
-  input[type="text"], input[type="file"] {
-    font-size: 14px;
-    padding: 8px;
-  }
-  button {
-    font-size: 14px;
-    padding: 8px 12px;
-  }
-  .grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 8px;
-  }
-  .card img, .album img {
-    height: 100px;
-  }
+  input[type="text"], input[type="file"] { font-size: 14px; padding: 8px; }
+  button { font-size: 14px; padding: 8px 12px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  .card img, .album img { height: 100px; }
 }
