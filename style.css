@@ -71,3 +71,25 @@ button[disabled] { opacity: 0.5; cursor: not-allowed; }
   background: rgba(0,0,0,.6); color:#fff; padding:4px 8px; border-radius:999px; font-size:12px;
 }
 .albumCover { position: relative; }
+
+/* スマホ向け調整 */
+@media (max-width: 480px) {
+  h1 { font-size: 20px; }
+  h2 { font-size: 18px; }
+  .panel { padding: 12px; }
+  input[type="text"], input[type="file"] {
+    font-size: 14px;
+    padding: 8px;
+  }
+  button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+  }
+  .card img, .album img {
+    height: 100px; /* 高さを縮小 */
+  }
+}
