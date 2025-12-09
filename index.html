@@ -4,17 +4,51 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>カード＆アルバム管理（自分用）</title>
+  <title>カード＆アルバム管理（メニュー付き）</title>
   style.css
 </head>
 <body>
-<header>
-  <h1>カード＆アルバム管理（自分用）</h1>
+<header class="app-header">
+  <h1>カード＆アルバム管理</h1>
+  <nav class="top-nav">
+    <button class="ghost" data-route="#menu">メニュー</button>
+    <button class="ghost" data-route="#card">カード登録</button>
+    <button class="ghost" data-route="#album-create">アルバム登録</button>
+    <button class="ghost" data-route="#album-list">アルバム一覧</button>
+    <button class="ghost" data-route="#settings">属性／バックアップ</button>
+  </nav>
 </header>
 
 <main>
-  <!-- カード登録 -->
-  <section class="panel">
+  <!-- ===== メニュー画面 ===== -->
+  <section id="view-menu" class="view panel">
+    <h2>メニュー</h2>
+    <div class="menu-grid">
+      <button class="menu-tile" data-route="#card">
+        <div class="menu-icon">🖼️</div>
+        <div class="menu-title">カード登録</div>
+        <div class="menu-desc">名称＋画像を1枚ずつ登録</div>
+      </button>
+      <button class="menu-tile" data-route="#album-create">
+        <div class="menu-icon">📚</div>
+        <div class="menu-title">アルバム登録</div>
+        <div class="menu-desc">名前→カード最大20枚→属性選択→作成</div>
+      </button>
+      <button class="menu-tile" data-route="#album-list">
+        <div class="menu-icon">🗂️</div>
+        <div class="menu-title">アルバム一覧</div>
+        <div class="menu-desc">表示・編集・削除</div>
+      </button>
+      <button class="menu-tile" data-route="#settings">
+        <div class="menu-icon">⚙️</div>
+        <div class="menu-title">属性マスター／バックアップ</div>
+        <div class="menu-desc">属性追加・削除／データのエクスポート・インポート</div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== カード登録 ===== -->
+  <section id="view-card" class="view panel hidden">
     <h2>カード登録（名称＋画像のみ）</h2>
     <form id="cardForm">
       <label>カード名 <input type="text" id="cardName" required /></label>
@@ -23,41 +57,55 @@
       <button type="submit">登録</button>
     </form>
     <div id="cardStatus" class="status"></div>
-  </section>
 
-  <!-- カード一覧（編集／削除付き） -->
-  <section class="panel">
-    <h2>カード一覧</h2>
+    <h3>カード一覧</h3>
     <div id="cardList" class="grid"></div>
   </section>
 
-  <!-- アルバム作成 -->
-  <section class="panel">
+  <!-- ===== アルバム登録 ===== -->
+  <section id="view-album-create" class="view panel hidden">
     <h2>アルバム登録（最大20枚）</h2>
     <form id="albumForm">
       <label>アルバム名 <input type="text" id="albumTitle" required /></label>
+
+      <div class="subhead">属性（任意）</div>
+      <div class="chips-bar">
+        <div id="albumAttrPicker" class="chips"></div>
+        <button type="button" id="quickAttrAdd" class="ghost">＋属性をその場で追加</button>
+      </div>
+
       <div class="hint">カードを選択してください（クリックで選択/解除）</div>
       <div id="albumCardPicker" class="grid"></div>
       <div id="albumCount" class="status"></div>
+
       <button type="submit">アルバム作成</button>
     </form>
     <div id="albumStatus" class="status"></div>
   </section>
 
-  <!-- アルバム一覧（編集／削除付き） -->
-  <section class="panel">
+  <!-- ===== アルバム一覧 ===== -->
+  <section id="view-album-list" class="view panel hidden">
     <h2>アルバム一覧</h2>
     <div id="albumList" class="grid"></div>
   </section>
 
-  <!-- バックアップ -->
-  <section class="panel">
+  <!-- ===== 設定（属性マスター／バックアップ） ===== -->
+  <section id="view-settings" class="view panel hidden">
+    <h2>属性マスター</h2>
+    <form id="attrForm" class="attr-form">
+      <label>属性名 <input type="text" id="attrName" required /></label>
+      <label>画像（任意）<input type="file" id="attrImage" accept="image/*" /></label>
+      <button type="submit">属性を追加</button>
+      <div id="attrStatus" class="status"></div>
+    </form>
+    <div id="attrList" class="grid attrs"></div>
+
     <h2>バックアップ／復元</h2>
     <div class="backup">
       <button id="exportBtn">JSONエクスポート</button>
       <input type="file" id="importFile" accept="application/json" />
       <button id="importBtn">インポート</button>
-      <div class="hint">※画像を含むためファイルサイズが大きくなる場合があります</div>
+      <div class="hint">※カード／アルバム／属性を含みます（画像含むため大きくなる可能性あり）</div>
       <div id="backupStatus" class="status"></div>
     </div>
   </section>
@@ -101,6 +149,8 @@
       <form id="albumEditForm">
         <input type="hidden" id="albumEditId" />
         <label>アルバム名 <input type="text" id="albumEditTitle" required /></label>
+        <div class="subhead">属性（任意）</div>
+        <div id="albumEditAttrPicker" class="chips"></div>
         <div class="hint">カードを選択してください（最大20枚）</div>
         <div id="albumEditPicker" class="grid"></div>
         <div id="albumEditCount" class="status"></div>
@@ -114,6 +164,6 @@
   </div>
 </div>
 
-app.js</script>
+<script/script>
 </body>
 </html>
