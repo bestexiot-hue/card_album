@@ -15,18 +15,17 @@
 <main>
   <!-- カード登録 -->
   <section class="panel">
-    <h2>カード登録</h2>
+    <h2>カード登録（名称＋画像のみ）</h2>
     <form id="cardForm">
       <label>カード名 <input type="text" id="cardName" required /></label>
-      <label>ジャンル（カンマ区切り） <input type="text" id="cardGenres" placeholder="例: 旅, 食, 趣味" /></label>
       <label>画像 <input type="file" id="cardImage" accept="image/*" required /></label>
-      <div class="hint">※画像は自動で最大幅1024pxに縮小・保存されます</div>
+      <div id="cardPreview" class="preview"></div>
       <button type="submit">登録</button>
     </form>
     <div id="cardStatus" class="status"></div>
   </section>
 
-  <!-- カード一覧 -->
+  <!-- カード一覧（編集／削除付き） -->
   <section class="panel">
     <h2>カード一覧</h2>
     <div id="cardList" class="grid"></div>
@@ -37,7 +36,6 @@
     <h2>アルバム登録（最大20枚）</h2>
     <form id="albumForm">
       <label>アルバム名 <input type="text" id="albumTitle" required /></label>
-      <label>ジャンル（カンマ区切り） <input type="text" id="albumGenres" placeholder="例: 旅アルバム, 2025夏" /></label>
       <div class="hint">カードを選択してください（クリックで選択/解除）</div>
       <div id="albumCardPicker" class="grid"></div>
       <div id="albumCount" class="status"></div>
@@ -46,14 +44,9 @@
     <div id="albumStatus" class="status"></div>
   </section>
 
-  <!-- 検索 -->
+  <!-- アルバム一覧（編集／削除付き） -->
   <section class="panel">
-    <h2>アルバム検索（ジャンル）</h2>
-    <form id="searchForm">
-      <label>ジャンルキーワード <input type="text" id="searchKeyword" placeholder="例: 旅" /></label>
-      <button type="submit">検索</button>
-      <button type="button" id="searchClear">クリア</button>
-    </form>
+    <h2>アルバム一覧</h2>
     <div id="albumList" class="grid"></div>
   </section>
 
@@ -73,6 +66,53 @@
 <footer>
   <small>© 自分用 Card/Album Manager</small>
 </footer>
+
+<!-- カード編集モーダル -->
+<div id="cardEditModal" class="modal hidden">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <h3>カード編集</h3>
+      <button id="cardEditClose" class="ghost">閉じる</button>
+    </div>
+    <div class="modal-body">
+      <form id="cardEditForm">
+        <input type="hidden" id="cardEditId" />
+        <label>カード名 <input type="text" id="cardEditName" required /></label>
+        <label>画像（差し替え任意）<input type="file" id="cardEditImage" accept="image/*" /></label>
+        <div id="cardEditPreview" class="preview"></div>
+        <div class="row-right">
+          <button type="submit">保存</button>
+          <button type="button" id="cardDeleteBtn" class="danger">削除</button>
+        </div>
+        <div id="cardEditStatus" class="status"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- アルバム編集モーダル -->
+<div id="albumEditModal" class="modal hidden">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <h3>アルバム編集</h3>
+      <button id="albumEditClose" class="ghost">閉じる</button>
+    </div>
+    <div class="modal-body">
+      <form id="albumEditForm">
+        <input type="hidden" id="albumEditId" />
+        <label>アルバム名 <input type="text" id="albumEditTitle" required /></label>
+        <div class="hint">カードを選択してください（最大20枚）</div>
+        <div id="albumEditPicker" class="grid"></div>
+        <div id="albumEditCount" class="status"></div>
+        <div class="row-right">
+          <button type="submit">保存</button>
+          <button type="button" id="albumDeleteBtn" class="danger">削除</button>
+        </div>
+        <div id="albumEditStatus" class="status"></div>
+      </form>
+    </div>
+  </div>
+</div>
 
 app.js</script>
 </body>
